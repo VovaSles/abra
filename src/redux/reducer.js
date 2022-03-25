@@ -1,10 +1,11 @@
-import { telaviv, telavivWeather } from './mock';
+import { telaviv, telavivWeather ,telaviv5DaysWeather} from './mock';
 
 const defaultState = {
     autocomplete: [],
     city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
+    daysWeather: telaviv5DaysWeather
 }
 
 export const reducer = (state = defaultState, action) => {

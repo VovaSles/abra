@@ -6,7 +6,7 @@ const NavBar = () => {
     return (
         <Navbar bg="primary" variant="dark">
             <Container>
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+                <Navbar.Brand>Weather</Navbar.Brand>
                 <Nav className="justify-content-end">
                     <Nav.Link as={Link} to="/" >Home</Nav.Link>
                     <Nav.Link as={Link} to="/favorites" >Favorites</Nav.Link>

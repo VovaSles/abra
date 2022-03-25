@@ -17,10 +17,38 @@
 
 
 
-
+  export const telavivWeather =   {
+    "LocalObservationDateTime": "2022-03-25T20:47:00+03:00",
+    "EpochTime": 1648230420,
+    "WeatherText": "Some clouds",
+    "WeatherIcon": 36,
+    "HasPrecipitation": false,
+    "PrecipitationType": null,
+    "IsDayTime": false,
+    "Temperature": {
+      "Metric": {
+        "Value": 14.7,
+        "Unit": "C",
+        "UnitType": 17
+      },
+      "Imperial": {
+        "Value": 59,
+        "Unit": "F",
+        "UnitType": 18
+      }
+    },
+    "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
+    "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"
+  }
   
 
-  export const telavivWeather = {
+
+
+
+
+
+  
+  export const telaviv5DaysWeather = {
     "Headline": {
       "EffectiveDate": "2022-03-24T01:00:00+02:00",
       "EffectiveEpochDate": 1648076400,
