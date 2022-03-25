@@ -9,9 +9,12 @@ const FavoritesPage = () => {
   const removeCity = (city) =>{
     dispatch(removeFromFavoritesAction(city.Key))
   }
+
+
+  
   return (
     <>
-   
+        {console.log(favorites)}
       { favorites.map(city => (
       <div key={city.Key}>{city.LocalizedName}<button onClick={() => removeCity(city)}>Remove</button></div>
     ))}

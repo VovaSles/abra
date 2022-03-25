@@ -1,29 +1,20 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Navbar, Nav, Container} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
-export default function ButtonAppBar() {
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            WEATHER
-          </Typography>
-          <Box  pt={1}>
-          <Button color="inherit" component={Link} to={'/'}>SEARCH</Button>
-          </Box>
-          <Box  pt={1}>
-          <Button color="inherit" component={Link} to={'/favorites'}>FAVORITES</Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </Box>
-  );
+const NavBar = () => {
+    return (
+        <Navbar bg="primary" variant="dark">
+            <Container>
+                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+                <Nav className="justify-content-end">
+                    <Nav.Link as={Link} to="/" >Home</Nav.Link>
+                    <Nav.Link as={Link} to="/favorites" >Favorites</Nav.Link>
+                </Nav>
+            </Container>
+        </Navbar>
+
+    )
 }
+
+export default NavBar

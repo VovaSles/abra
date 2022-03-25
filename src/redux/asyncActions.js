@@ -3,10 +3,11 @@ import { setAutocompleteOptionsAction } from '../redux/reducer'
 
 export const fetchAutocompleteOptions = (q) =>{
     return function (dispatch) {
-        fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
-  .then(response => response.json())
-  .then(json => dispatch(setAutocompleteOptionsAction(json)))
-
+        if(q!==""){
+            fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
+            .then(response => response.json())
+            .then(json => dispatch(setAutocompleteOptionsAction(json)))
+        }
     }
 }
 
