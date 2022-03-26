@@ -2,7 +2,12 @@ import React from 'react'
 
 const NotFound = () => {
   return (
-    <div>NotFound</div>
+    <>
+     <h1 class="text-center m-5">Not found.</h1>
+     <h1 class="text-center m-5">Wrong route.</h1>
+     <h1 class="text-center m-5">Try '/' or '/favorites'</h1>
+    </>
+   
   )
 }
 
