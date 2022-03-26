@@ -1,28 +1,47 @@
-import { setAutocompleteOptionsAction } from '../redux/reducer'
+import { setAutocompleteOptionsAction, setCityAction, setWeatherAction, setErrorAction, setLoadingAction } from '../redux/reducer'
+import axios from 'axios'
 
+//Autocomplete search
+export function fetchOptions(q) {
+    return async dispatch => {
+        try {
+            dispatch(setLoadingAction(true))
+            const options = await axios
+                .get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
+                .then(res => res.data)
+            dispatch(setCityAction(options))
+        } catch (err) {
+            dispatch(setErrorAction(err))
+        } finally {
+            dispatch(setLoadingAction(false))
+        }
+    }
+}
 
-export const fetchAutocompleteOptions = (q) =>{
-    return function (dispatch) {
-        if(q!==""){
-            fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
-            .then(response => response.json())
-            .then(json => dispatch(setAutocompleteOptionsAction(json)))
+export function fetchWeather(id) {
+    return async dispatch => {
+        try {
+            dispatch(setLoadingAction(true))
+            //Current Conditions
+            const city = await axios
+                .get(`http://dataservice.accuweather.com/currentconditions/v1/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
+                .then(res => res.data)
+            dispatch(setCityAction(city[0]))
+            console.log(city)
+            // Days of Daily Forecasts
+            const weather = await axios
+                .get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
+                .then(res => res.data)
+            dispatch(setWeatherAction(weather.DailyForecasts))
+            console.log(weather.DailyForecasts)
+        } catch (err) {
+            dispatch(setErrorAction(err))
+        } finally {
+            dispatch(setLoadingAction(false))
         }
     }
 }
 
 
-// const getData = async () => {
-//     try {
-//       const response = await axios.get(
-//         `https://jsonplaceholder.typicode.com/posts?_limit=10`
-//       );
-//       setData(response.data);
-//       setError(null);
-//     } catch (err) {
-//       setError(err.message);
-//       setData(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+
+

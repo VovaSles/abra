@@ -1,21 +1,37 @@
-import { telaviv, telavivWeather ,telaviv5DaysWeather} from './mock';
+import { telaviv, telavivWeather, telaviv5DaysWeather } from './mock';
+
+import { mockOptions } from '../redux/mockOptions'
 
 const defaultState = {
-    autocomplete: [],
+    error: null,
+    loading: false,
+    options: mockOptions,
     city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
-    daysWeather: telaviv5DaysWeather
+    daysWeather: telaviv5DaysWeather.DailyForecasts
 }
 
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'GET_AUTOCOMPLETE_OPTIONS':
             return { ...state, autocomplete: [...state.autocomplete, action.payload] }
+        case 'CLEAR_OPTIONS':
+            return { ...state, autocomplete: [] }
         case 'ADD_FAVORITE':
             return { ...state, favorites: [...state.favorites, action.payload] }
         case 'REMOVE_FAVORITE':
             return { ...state, favorites: state.favorites.filter(city => city.Key !== action.payload) }
+        case 'SET_ERROR':
+            return { ...state, error: action.payload }
+        case 'SET_LOADING':
+            return { ...state, loading: action.payload }
+        case 'CHANGE_CITY':
+                return { ...state, city: action.payload }
+        case 'SET_CITY':
+            return { ...state, cityWeather: action.payload }
+        case 'SET_WEATHER':
+            return { ...state, daysWeather: [...action.payload] }
         default:
             return state
     }
@@ -23,5 +39,11 @@ export const reducer = (state = defaultState, action) => {
 
 
 export const setAutocompleteOptionsAction = (payload) => ({ type: 'GET_AUTOCOMPLETE_OPTIONS', payload });
+export const clearOptionsAction = (payload) => ({ type: 'CLEAR_OPTIONS' });
 export const addToFavoritesAction = (payload) => ({ type: 'ADD_FAVORITE', payload });
 export const removeFromFavoritesAction = (payload) => ({ type: 'REMOVE_FAVORITE', payload })
+export const setErrorAction = (payload) => ({ type: 'SET_ERROR', payload });
+export const setLoadingAction = (payload) => ({ type: 'SET_LOADING', payload });
+export const setCityAction = (payload) => ({ type: 'SET_CITY', payload });
+export const setWeatherAction = (payload) => ({ type: 'SET_WEATHER', payload });
+export const changeCityAction = (payload) => ({ type: 'CHANGE_CITY', payload });
