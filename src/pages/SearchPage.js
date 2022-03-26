@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, Button, Badge, Container, Row, Col, Form, FormControl, ListGroup, Modal, Spinner } from 'react-bootstrap'
+import { Card, Button, Badge, Container, Row, Col, Form, FormControl, ListGroup, Modal, Spinner,Alert } from 'react-bootstrap'
 import { clearOptionsAction, setErrorAction, setAutocompleteOptionsAction, addToFavoritesAction, changeCityAction } from '../redux/reducer'
 import { fetchAutocompleteOptions, fetchWeather } from '../redux/asyncActions'
 import { Heart } from "react-bootstrap-icons"
+import Typewriter from 'typewriter-effect';
 
 
 
@@ -17,6 +18,11 @@ const SearchPage = () => {
     const loading = useSelector(state => state.loading)
     const [inputValue, setInputValue] = useState("");
     const options = useSelector(state => state.options)
+    const [showAlert, setShowAlert] = useState(true);
+
+
+const inputCheck = (value) =>  {value.replace(/[^A-Za-z]/ig, '') && setShowAlert(true)}                
+
 
     const cityClickHandler = (city) => {
         dispatch(fetchWeather(city.Key));
@@ -46,11 +52,15 @@ const SearchPage = () => {
                     <Row>
                         <Col xs={12} md={12}>
                             <Form className=' m-auto mt-5'>
+                               { showAlert && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                                    <Alert.Heading>Type in english please!</Alert.Heading>
+                                </Alert>} 
                                 <Form.Group className="mb-3 mt-3">
                                     <FormControl
                                         id="search"
                                         placeholder="Search ..."
                                         value={inputValue}
+                                        autoComplete="of"
                                         onChange={e => setInputValue(e.target.value)}
                                     />
                                 </Form.Group>
@@ -81,7 +91,15 @@ const SearchPage = () => {
                                             </Col>
                                         </Row>
                                     </Card.Title>
-                                    <h1 className="text-center m-auto" >{weather.WeatherText}</h1>
+                                    <h1 className="text-center m-auto" >
+                                    <Typewriter
+                                     options={{
+                                     strings: weather.WeatherText,
+                                     autoStart: true,
+                                     loop: true,
+                                    }}
+                                    />
+                                    </h1>
                                     <Row xs={1} md={5} className="g-5 m-3">
                                         {daysWeather.map((d, idx) => (
                                             <Col key={d.EpochDate}>
@@ -101,6 +119,7 @@ const SearchPage = () => {
                         </Col>
                     </Row>
                 </Container>
+               
             </>
         );
     }
