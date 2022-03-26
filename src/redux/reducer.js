@@ -3,9 +3,10 @@ import { telaviv, telavivWeather, telaviv5DaysWeather } from './mock';
 import { mockOptions } from '../redux/mockOptions'
 
 const defaultState = {
+    alert: null,
     error: null,
     loading: false,
-    options: mockOptions,
+    options: [],
     city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
@@ -15,9 +16,9 @@ const defaultState = {
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'GET_AUTOCOMPLETE_OPTIONS':
-            return { ...state, autocomplete: [...state.autocomplete, action.payload] }
+            return { ...state, options: [... action.payload] }
         case 'CLEAR_OPTIONS':
-            return { ...state, autocomplete: [] }
+            return { ...state, options: [] }
         case 'ADD_FAVORITE':
             return { ...state, favorites: [...state.favorites, action.payload] }
         case 'REMOVE_FAVORITE':
@@ -32,6 +33,8 @@ export const reducer = (state = defaultState, action) => {
             return { ...state, cityWeather: action.payload }
         case 'SET_WEATHER':
             return { ...state, daysWeather: [...action.payload] }
+        case 'SET_ALERT':
+                return { ...state, alert: action.payload }
         default:
             return state
     }
@@ -47,3 +50,5 @@ export const setLoadingAction = (payload) => ({ type: 'SET_LOADING', payload });
 export const setCityAction = (payload) => ({ type: 'SET_CITY', payload });
 export const setWeatherAction = (payload) => ({ type: 'SET_WEATHER', payload });
 export const changeCityAction = (payload) => ({ type: 'CHANGE_CITY', payload });
+export const setAlertAction = (payload) => ({ type: 'SET_ALERT', payload });
+

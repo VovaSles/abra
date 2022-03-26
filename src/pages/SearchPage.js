@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Container, Row, Col, Form, FormControl, ListGroup, Modal, Spinner,Alert } from 'react-bootstrap'
-import { clearOptionsAction, setErrorAction, setAutocompleteOptionsAction, addToFavoritesAction, changeCityAction } from '../redux/reducer'
-import { fetchAutocompleteOptions, fetchWeather } from '../redux/asyncActions'
+import { setErrorAction, clearOptionsAction, addToFavoritesAction, changeCityAction ,setInputAction, setAlertAction} from '../redux/reducer'
+import { fetchWeather,fetchOptions } from '../redux/asyncActions'
 import { Heart } from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect';
 
@@ -16,17 +16,34 @@ const SearchPage = () => {
     const daysWeather = useSelector(state => state.daysWeather);
     const error = useSelector(state => state.error);
     const loading = useSelector(state => state.loading)
-    const [inputValue, setInputValue] = useState("");
+    const [input, setInput] = useState('')
     const options = useSelector(state => state.options)
-    const [showAlert, setShowAlert] = useState(true);
+    
 
 
-const inputCheck = (value) =>  {value.replace(/[^A-Za-z]/ig, '') && setShowAlert(true)}                
+    const searchHandler = (q) => {
+        if(q.replace(/[^A-Za-z]/ig, '') !== q){
+            alertHandler({variant:'danger', text:'Type in English only!'})
+            
+        }
+       
+        dispatch(fetchOptions(q))
+        if(options.length <= 0){
+            alertHandler({variant:'info', text:'No matches!'})
+        }
 
+    }
+    const alertHandler = (alert) =>{
+        dispatch(setAlertAction(alert))
+        setTimeout(()=>{dispatch(setAlertAction(null))},3000)
+    }
+
+    const inputCheck = (value) =>  {value.replace(/[^A-Za-z]/ig, '')}         
 
     const cityClickHandler = (city) => {
         dispatch(fetchWeather(city.Key));
         dispatch(changeCityAction(city));
+        dispatch(clearOptionsAction())
     }
 
     const getWeekDat = (date) => {
@@ -35,7 +52,7 @@ const inputCheck = (value) =>  {value.replace(/[^A-Za-z]/ig, '') && setShowAlert
         return weekday[d.getDay()]
     }
     if (error) {
-        return <Modal.Dialog className="justify-content-center">
+        return <Modal.Dialog className="justify-content-center mt-5" >
             <Modal.Body>
                 {error.message}
             </Modal.Body>
@@ -52,16 +69,24 @@ const inputCheck = (value) =>  {value.replace(/[^A-Za-z]/ig, '') && setShowAlert
                     <Row>
                         <Col xs={12} md={12}>
                             <Form className=' m-auto mt-5'>
-                               { showAlert && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
-                                    <Alert.Heading>Type in english please!</Alert.Heading>
+                                { !options && input && <Alert variant="success" dismissible>
+                                    <Alert.Heading>No maches!</Alert.Heading>
                                 </Alert>} 
                                 <Form.Group className="mb-3 mt-3">
                                     <FormControl
                                         id="search"
                                         placeholder="Search ..."
-                                        value={inputValue}
+                                        value={input}
                                         autoComplete="of"
-                                        onChange={e => setInputValue(e.target.value)}
+                                        onChange={e => {
+                                            if (e.target.value) {
+                                                setInput(e.target.value);
+                                                searchHandler(e.target.value);
+                                            } else {
+                                                console.log('if')
+                                            }
+                                            
+                                        }}
                                     />
                                 </Form.Group>
                             </Form>

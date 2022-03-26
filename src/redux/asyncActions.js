@@ -3,18 +3,22 @@ import axios from 'axios'
 
 //Autocomplete search
 export function fetchOptions(q) {
+    
     return async dispatch => {
-        try {
-            dispatch(setLoadingAction(true))
-            const options = await axios
-                .get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
-                .then(res => res.data)
-            dispatch(setCityAction(options))
-        } catch (err) {
-            dispatch(setErrorAction(err))
-        } finally {
-            dispatch(setLoadingAction(false))
+        if(q){
+            try {
+               // dispatch(setLoadingAction(true))
+                const options = await axios
+                    .get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
+                    .then(res => res.data)
+                dispatch(setAutocompleteOptionsAction(options))
+            } catch (err) {
+                dispatch(setErrorAction(err))
+            } finally {
+                dispatch(setLoadingAction(false))
+            }
         }
+       
     }
 }
 
@@ -33,7 +37,6 @@ export function fetchWeather(id) {
                 .get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
                 .then(res => res.data)
             dispatch(setWeatherAction(weather.DailyForecasts))
-            console.log(weather.DailyForecasts)
         } catch (err) {
             dispatch(setErrorAction(err))
         } finally {
