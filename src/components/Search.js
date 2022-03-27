@@ -10,14 +10,6 @@ const Search = () => {
   const [input, setInput] = useState('')
   const options = useSelector(state => state.options)
 
-  const searchHandler = (q) => {
-    if (q.replace(/[^A-Za-z]/ig, '') === q) {
-      dispatch(fetchOptions(q))
-    } else {
-      alertHandler({ variant: 'danger', text: 'Type in English only!' })
-      dispatch(fetchOptions(q))
-    }
-  }
   const cityClickHandler = (city) => {
     dispatch(fetchWeather(city.Key));
     dispatch(changeCityAction(city));
@@ -38,10 +30,11 @@ const Search = () => {
             autoComplete="of"
             onChange={e => {
               if (e.target.value.length === 1 && e.target.value.match(/[A-Za-z]/i)) {
-                setInput(e.target.value);
-                searchHandler(e.target.value);
+                setInput(e.target.value)
+                dispatch(fetchOptions(e.target.value))
               } else {
                 setInput('');
+                alertHandler({ variant: 'danger', text: 'Type in English only!' })
               }
             }}
           />
