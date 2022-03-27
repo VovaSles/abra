@@ -3,11 +3,10 @@ import axios from 'axios'
 
 //Autocomplete search
 export function fetchOptions(q) {
-    
+
     return async dispatch => {
-        if(q){
+        if (q) {
             try {
-               // dispatch(setLoadingAction(true))
                 const options = await axios
                     .get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
                     .then(res => res.data)
@@ -18,7 +17,7 @@ export function fetchOptions(q) {
                 dispatch(setLoadingAction(false))
             }
         }
-       
+
     }
 }
 
