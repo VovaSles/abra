@@ -8,7 +8,7 @@ const defaultState = {
     error: null,
     loading: false,
     options: [],
-    city: telaviv,
+    city: {},
     favorites: [],
     cityWeather: telavivWeather,
     daysWeather: telaviv5DaysWeather.DailyForecasts
