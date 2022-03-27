@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes
 } from "react-router-dom";
@@ -20,8 +20,8 @@ const App = () => {
         <NavBar />
         {alert && <Alert variant={alert.variant}>{alert.text}</Alert>}
         <Routes>
-          <Route exect path="/abra/" element={<SearchPage/>} />
-          <Route path="abra//favorites" element={<FavoritesPage/>} />
+          <Route exect path="/" element={<SearchPage/>} />
+          <Route path="/favorites" element={<FavoritesPage/>} />
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Router>ְ
