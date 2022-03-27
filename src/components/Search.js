@@ -37,7 +37,7 @@ const Search = () => {
             value={input}
             autoComplete="of"
             onChange={e => {
-              if (e.target.value.replace(/[^A-Za-z]/ig, '') === e.target.value) {
+              if (e.target.value.length === 1 && e.target.value.match(/[A-Za-z]/i)) {
                 setInput(e.target.value);
                 searchHandler(e.target.value);
               } else {
