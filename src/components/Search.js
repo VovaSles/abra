@@ -15,7 +15,7 @@ const Search = () => {
       alertHandler({ variant: 'danger', text: 'Type in English only!' })
     } else {
       dispatch(fetchOptions(q))
-      if (options.length <= 0) {
+      if (options.length == 0 && q) {
         alertHandler({ variant: 'info', text: 'No matches!' })
       }
     }

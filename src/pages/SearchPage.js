@@ -4,6 +4,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap'
 import Search from '../components/Search'
 import SelectedCity from '../components/SelectedCity'
 import ErrorModal from '../components/ErrorModal'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const SearchPage = () => {
     const error = useSelector(state => state.error);
@@ -12,7 +13,8 @@ const SearchPage = () => {
     if (error) {
         return <ErrorModal />
     } else if (loading) {
-        return <Spinner className="justify-content-center  mt-5" animation="border" variant="primary" />
+        return <LoadingSpinner/>
+       
     } else {
         return (
             <>

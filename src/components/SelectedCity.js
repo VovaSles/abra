@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Row, Col } from 'react-bootstrap'
-import { addToFavoritesAction , setCityAction, setWeatherAction, changeCityAction} from '../redux/reducer'
+import { addToFavoritesAction , setCityAction, setWeatherAction, changeCityAction, setErrorAction, setLoadingAction} from '../redux/reducer'
 import { Heart} from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
@@ -18,18 +18,21 @@ const SelectedCity = () => {
 
     useEffect(() => {
         dispatch(changeCityAction(telaviv))
+        dispatch(setLoadingAction(true))
         fetch(`http://dataservice.accuweather.com/currentconditions/v1/${telaviv.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
          .then((response) => response.json())
-         .then((actualData) => console.log(actualData[0]))
+         .then((actualData) => dispatch(setCityAction(actualData[0])))
          fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${telaviv.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
          .then((response) => response.json())
-         .then((actualData) => console.log(actualData.DailyForecasts))
-
+         .then((actualData) =>   dispatch(setWeatherAction(actualData.DailyForecasts)))
+         
          .catch((err) => {
-          console.log(err.message);
+           dispatch(setErrorAction(err))
          });
        }, []);
 
+
+       
 
 
     return (

@@ -1,4 +1,4 @@
-import { telaviv, telavivWeather, telaviv5DaysWeather } from './mock';
+import {telavivWeather, telaviv5DaysWeather } from './mock';
 
 
 
