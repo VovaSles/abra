@@ -11,13 +11,11 @@ const Search = () => {
   const options = useSelector(state => state.options)
 
   const searchHandler = (q) => {
-    if (q.replace(/[^A-Za-z]/ig, '') !== q) {
-      alertHandler({ variant: 'danger', text: 'Type in English only!' })
-    } else {
+    if (q.replace(/[^A-Za-z]/ig, '') === q) {
       dispatch(fetchOptions(q))
-      if (options.length == 0 && q) {
-        alertHandler({ variant: 'info', text: 'No matches!' })
-      }
+    } else {
+      alertHandler({ variant: 'danger', text: 'Type in English only!' })
+      dispatch(fetchOptions(q))
     }
   }
   const cityClickHandler = (city) => {
@@ -39,11 +37,11 @@ const Search = () => {
             value={input}
             autoComplete="of"
             onChange={e => {
-              if (e.target.value) {
+              if (e.target.value.replace(/[^A-Za-z]/ig, '') === e.target.value) {
                 setInput(e.target.value);
                 searchHandler(e.target.value);
               } else {
-                console.log('if')
+                setInput('');
               }
             }}
           />

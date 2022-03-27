@@ -18,7 +18,7 @@ const SelectedCity = () => {
 
     useEffect(() => {
         dispatch(changeCityAction(telaviv))
-        dispatch(setLoadingAction(true))
+        
         fetch(`http://dataservice.accuweather.com/currentconditions/v1/${telaviv.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
          .then((response) => response.json())
          .then((actualData) => dispatch(setCityAction(actualData[0])))
