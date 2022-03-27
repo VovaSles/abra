@@ -1,6 +1,6 @@
 import { telaviv, telavivWeather, telaviv5DaysWeather } from './mock';
 
-import { mockOptions } from '../redux/mockOptions'
+
 
 const defaultState = {
     celsius: true,

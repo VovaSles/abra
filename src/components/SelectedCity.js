@@ -2,9 +2,10 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Row, Col } from 'react-bootstrap'
 import { addToFavoritesAction } from '../redux/reducer'
-import { Heart } from "react-bootstrap-icons"
-import Typewriter from 'typewriter-effect';
+import { Heart} from "react-bootstrap-icons"
+import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
+import {metric} from '../utils/utils'
 
 const SelectedCity = () => {
     const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const SelectedCity = () => {
     const city = useSelector(state => state.city);
     const weather = useSelector(state => state.cityWeather);
     const daysWeather = useSelector(state => state.daysWeather);
+    const celsius =useSelector(state => state.celsius)
 
     return (
         <>
@@ -23,17 +25,16 @@ const SelectedCity = () => {
                                 <h2 className="text-center m-auto">
                                     {city.LocalizedName}
                                     <Badge bg="secondary" className='m-3'>
-                                        {weather.Temperature.Metric.Value}
-                                        {weather.Temperature.Metric.Unit}
+                                        {celsius? weather.Temperature.Metric.Value :weather.Temperature.Imperial.Value}
+                                        {celsius? weather.Temperature.Metric.Unit: weather.Temperature.Imperial.Unit}
                                     </Badge>
                                 </h2>
                             </Col>
-                            <Col xs={{ span: 6, offset: 4 }} md={{ span: 2, offset: 6 }}>
-                                {console.log(favorites)}
-                                {favorites.includes(city) ? <Heart color="red" size={40} />
+                            <Col xs={{ span: 5, offset: 2 }} md={{ span: 2, offset: 6 }}>
+                                {favorites.includes(city) ? <Heart color="red" size={40} floodColor="red"/>
                                     : <Button
                                         variant="primary"
-                                        onClick={() => dispatch(addToFavoritesAction(city))}>Like</Button>
+                                        onClick={() => dispatch(addToFavoritesAction(city))}>Like it</Button>
                                 }
                             </Col>
                         </Row>
@@ -53,8 +54,9 @@ const SelectedCity = () => {
                                 <Card className="text-center" bg="warning">
                                     <Card.Body>
                                         <Card.Title>{getWeekDat(d.Date)}</Card.Title>
-                                        <h5> {d.Temperature.Maximum.Value}
-                                            {d.Temperature.Maximum.Unit}
+                                        <h5>
+                                            {celsius?  parseInt(metric(d.Temperature.Maximum.Value)): d.Temperature.Maximum.Value}
+                                            {celsius? "C" : d.Temperature.Maximum.Unit}
                                         </h5>
                                     </Card.Body>
                                 </Card>
