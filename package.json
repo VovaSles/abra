@@ -2,7 +2,7 @@
   "name": "abra-weather",
   "version": "0.1.0",
   "private": true,
-  "homepage": "//VovaSles.github.io/abra",
+  "homepage": "http://VovaSles.github.io/abra",
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
