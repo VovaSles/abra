@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/abra/static/css/main.e6c13ad2.css",
-    "main.js": "/abra/static/js/main.f00747d1.js",
+    "main.js": "/abra/static/js/main.d8d62d1f.js",
     "index.html": "/abra/index.html",
     "main.e6c13ad2.css.map": "/abra/static/css/main.e6c13ad2.css.map",
-    "main.f00747d1.js.map": "/abra/static/js/main.f00747d1.js.map"
+    "main.d8d62d1f.js.map": "/abra/static/js/main.d8d62d1f.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.f00747d1.js"
+    "static/js/main.d8d62d1f.js"
   ]
 }
