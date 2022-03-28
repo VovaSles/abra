@@ -7,7 +7,7 @@ import { Heart } from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
 import { metric } from '../utils/utils'
-import axios from 'axios'
+
 
 
 const SelectedCity = () => {
@@ -23,7 +23,7 @@ const SelectedCity = () => {
     function fetchTelaviv() {
         console.log('telaviv')
 
-        axios.get(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+        fetch(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 console.log(res.data)
                 dispatch(setCityAction(res.data[0]))
@@ -31,7 +31,7 @@ const SelectedCity = () => {
             .catch(err => {
                 console.log(err)
             })
-        axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+            fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 dispatch(setWeatherAction(res.data.DailyForecasts))
                 console.log(res.data.DailyForecasts)
