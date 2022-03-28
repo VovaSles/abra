@@ -16,7 +16,7 @@ const App = () => {
   const alert = useSelector(state=> state.alert)
   return (
     <>
-      <Router>
+      <Router basename="/abra">
         <NavBar />
         {alert && <Alert variant={alert.variant}>{alert.text}</Alert>}
         <Routes>
