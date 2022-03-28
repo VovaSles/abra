@@ -30,12 +30,13 @@ export function fetchWeather(id) {
                 .get(`http://dataservice.accuweather.com/currentconditions/v1/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
                 .then(res => res.data)
             dispatch(setCityAction(city[0]))
-            console.log(city)
+          
             // Days of Daily Forecasts
             const weather = await axios
                 .get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
                 .then(res => res.data)
             dispatch(setWeatherAction(weather.DailyForecasts))
+           
         } catch (err) {
             dispatch(setErrorAction(err))
         } finally {

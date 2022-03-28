@@ -1,4 +1,4 @@
-import {telavivWeather, telaviv5DaysWeather } from './mock';
+import {telavivWeather, telaviv5DaysWeather, telaviv } from './mock';
 
 
 
@@ -8,7 +8,7 @@ const defaultState = {
     error: null,
     loading: false,
     options: [],
-    city: {},
+    city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
     daysWeather: telaviv5DaysWeather.DailyForecasts

@@ -10,9 +10,11 @@ const Search = () => {
   const [input, setInput] = useState('')
   const options = useSelector(state => state.options)
 
-  const cityClickHandler = (city) => {
-    dispatch(fetchWeather(city.Key));
-    dispatch(changeCityAction(city));
+  const cityClickHandler = (item) => {
+    dispatch(fetchWeather(item.Key));
+    
+    dispatch(changeCityAction(item));
+    console.log(item)
     dispatch(clearOptionsAction())
   }
   const alertHandler = (alert) => {
@@ -29,7 +31,7 @@ const Search = () => {
             value={input}
             autoComplete="of"
             onChange={e => {
-              if (e.target.value.length === 1 && e.target.value.match(/[A-Za-z]/i)) {
+              if ( e.target.value.match(/[A-Za-z]/i)) {
                 setInput(e.target.value)
                 dispatch(fetchOptions(e.target.value))
               } else {

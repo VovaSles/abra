@@ -6,7 +6,7 @@ import { Heart} from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
 import {metric} from '../utils/utils'
-import { telaviv } from '../redux/mock';
+
 
 const SelectedCity = () => {
     const dispatch = useDispatch();
@@ -17,12 +17,10 @@ const SelectedCity = () => {
     const celsius =useSelector(state => state.celsius)
 
     useEffect(() => {
-        dispatch(changeCityAction(telaviv))
-        
-        fetch(`http://dataservice.accuweather.com/currentconditions/v1/${telaviv.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
+        fetch(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
          .then((response) => response.json())
          .then((actualData) => dispatch(setCityAction(actualData[0])))
-         fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${telaviv.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
+         fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
          .then((response) => response.json())
          .then((actualData) =>   dispatch(setWeatherAction(actualData.DailyForecasts)))
          
@@ -30,10 +28,6 @@ const SelectedCity = () => {
            dispatch(setErrorAction(err))
          });
        }, []);
-
-
-       
-
 
     return (
         <>
