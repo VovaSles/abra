@@ -16,12 +16,11 @@ const App = () => {
   const alert = useSelector(state=> state.alert)
   return (
     <>
-      <Router basename="/abra">
+      <Router>
         <NavBar />
         {alert && <Alert variant={alert.variant}>{alert.text}</Alert>}
         <Routes>
           <Route exect path="/" element={<SearchPage/>} />
-          <Route exect path="/abra" element={<SearchPage/>} />
           <Route path="/favorites" element={<FavoritesPage/>} />
           <Route path="*" element={<NotFound/>}/>
         </Routes>

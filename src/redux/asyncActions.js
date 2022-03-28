@@ -3,48 +3,35 @@ import axios from 'axios'
 
 //Autocomplete search
 export function fetchOptions(q) {
-
     return async dispatch => {
         if (q) {
-            try {
-                const options = await axios
-                    .get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
-                    .then(res => res.data)
-                dispatch(setAutocompleteOptionsAction(options))
-            } catch (err) {
-                dispatch(setErrorAction(err))
-            } finally {
-                dispatch(setLoadingAction(false))
-            }
+            axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${q}`)
+                .then(res => dispatch(setAutocompleteOptionsAction(res.data)))
+                .catch(err => dispatch(setErrorAction(err)))
         }
-
     }
 }
 
 export function fetchWeather(id) {
-    return async dispatch => {
+    return dispatch => {
         try {
             dispatch(setLoadingAction(true))
             //Current Conditions
-            const city = await axios
-                .get(`http://dataservice.accuweather.com/currentconditions/v1/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
-                .then(res => res.data)
-            dispatch(setCityAction(city[0]))
-          
+            axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
+                .then(res => dispatch(setCityAction(res.data[0])))
+                .catch(err => dispatch(setErrorAction(err)))
+
+
             // Days of Daily Forecasts
-            const weather = await axios
-                .get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
-                .then(res => res.data)
-            dispatch(setWeatherAction(weather.DailyForecasts))
-           
-        } catch (err) {
-            dispatch(setErrorAction(err))
-        } finally {
+            axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${id}?apikey=${process.env.REACT_APP_API_KEY}`)
+                .then(res => dispatch(setWeatherAction(res.data.DailyForecasts)))
+                .catch(err => dispatch(setErrorAction(err)))
+        }
+        finally {
             dispatch(setLoadingAction(false))
         }
     }
 }
-
 
 
 

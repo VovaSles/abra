@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Row, Col } from 'react-bootstrap'
-import { addToFavoritesAction , setCityAction, setWeatherAction, changeCityAction, setErrorAction, setLoadingAction} from '../redux/reducer'
-import { Heart} from "react-bootstrap-icons"
+import { addToFavoritesAction, setAutocompleteOptionsAction, setCityAction, setWeatherAction, setErrorAction, setLoadingAction } from '../redux/reducer'
+
+import { Heart } from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
-import {metric} from '../utils/utils'
+import { metric } from '../utils/utils'
+import axios from 'axios'
 
 
 const SelectedCity = () => {
@@ -14,23 +16,38 @@ const SelectedCity = () => {
     const city = useSelector(state => state.city);
     const weather = useSelector(state => state.cityWeather);
     const daysWeather = useSelector(state => state.daysWeather);
-    const celsius =useSelector(state => state.celsius)
+    const celsius = useSelector(state => state.celsius)
+    let loaded = false
+
+
+    function fetchTelaviv() {
+        console.log('telaviv')
+
+        axios.get(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+            .then(res => {
+                console.log(res.data)
+                dispatch(setCityAction(res.data[0]))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+            .then(res => {
+                dispatch(setWeatherAction(res.data.DailyForecasts))
+                console.log(res.data.DailyForecasts)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     useEffect(() => {
-        fetch(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
-         .then((response) => response.json())
-         .then((actualData) => dispatch(setCityAction(actualData[0])))
-         fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
-         .then((response) => response.json())
-         .then((actualData) =>   dispatch(setWeatherAction(actualData.DailyForecasts)))
-         
-         .catch((err) => {
-           dispatch(setErrorAction(err))
-         });
-       }, []);
+        fetchTelaviv()
+    }, []);
 
     return (
         <>
+
             <Card className='  mt-5' >
                 <Card.Body>
                     <Card.Title>
@@ -45,7 +62,7 @@ const SelectedCity = () => {
                                 </h2>
                             </Col>
                             <Col xs={{ span: 5, offset: 2 }} md={{ span: 2, offset: 6 }}>
-                                {favorites.includes(city) ? <Heart color="red" size={40} floodColor="red"/>
+                                {favorites.includes(city) ? <Heart color="red" size={40} floodColor="red" />
                                     : <Button
                                         variant="primary"
                                         onClick={() => dispatch(addToFavoritesAction(city))}>Like it</Button>
@@ -69,8 +86,8 @@ const SelectedCity = () => {
                                     <Card.Body>
                                         <Card.Title>{getWeekDat(d.Date)}</Card.Title>
                                         <h5>
-                                            {celsius?  parseInt(metric(d.Temperature.Maximum.Value)): d.Temperature.Maximum.Value}
-                                            {celsius? "C" : d.Temperature.Maximum.Unit}
+                                            {celsius ? parseInt(metric(d.Temperature.Maximum.Value)) : d.Temperature.Maximum.Value}
+                                            {celsius ? "C" : d.Temperature.Maximum.Unit}
                                         </h5>
                                     </Card.Body>
                                 </Card>
@@ -79,6 +96,8 @@ const SelectedCity = () => {
                     </Row>
                 </Card.Body>
             </Card>
+
+
         </>
     )
 }

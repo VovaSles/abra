@@ -1,4 +1,4 @@
-import {telavivWeather, telaviv5DaysWeather, telaviv } from './mock';
+import {telaviv, telavivWeather } from './models';
 
 
 
@@ -11,7 +11,7 @@ const defaultState = {
     city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
-    daysWeather: telaviv5DaysWeather.DailyForecasts
+    daysWeather:[]
 }
 
 export const reducer = (state = defaultState, action) => {
@@ -31,7 +31,8 @@ export const reducer = (state = defaultState, action) => {
         case 'CHANGE_CITY':
             return { ...state, city: action.payload }
         case 'SET_CITY':
-            return { ...state, cityWeather: action.payload }
+              console.log(action.payload)
+            return { ...state, cityWeather: {...action.payload}}
         case 'SET_WEATHER':
             return { ...state, daysWeather: [...action.payload] }
         case 'SET_ALERT':
