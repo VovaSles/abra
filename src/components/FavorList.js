@@ -8,7 +8,6 @@ import Typewriter from 'typewriter-effect'
 const FavorList = () => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorites);
-    const weather = useSelector(state => state.cityWeather);
     const navigate = useNavigate();
     const celsius = useSelector(state => state.celsius)
 
@@ -30,11 +29,11 @@ const FavorList = () => {
                         <Card className="text-center" onClick={() => cardClickHandler(city)}>
                             <Card.Body>
                                 <Card.Title>{city.LocalizedName}</Card.Title>
-                                <h3>  {celsius ? weather.Temperature.Metric.Value : weather.Temperature.Imperial.Value}
-                                    {celsius ? weather.Temperature.Metric.Unit : weather.Temperature.Imperial.Unit}</h3>
+                                <h3>  {celsius ? city.Temperature.Metric.Value : city.Temperature.Imperial.Value}
+                                    {celsius ? city.Temperature.Metric.Unit : city.Temperature.Imperial.Unit}</h3>
                                 <h2> <Typewriter
                                     options={{
-                                        strings: weather.WeatherText,
+                                        strings: city.WeatherText,
                                         autoStart: true,
                                         loop: true,
                                     }}

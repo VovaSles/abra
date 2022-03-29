@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Row, Col } from 'react-bootstrap'
-import { addToFavoritesAction, setAutocompleteOptionsAction, setCityAction, setWeatherAction, setErrorAction, setLoadingAction } from '../redux/reducer'
+import { addToFavoritesAction, setCityAction, setWeatherAction, setErrorAction, setLoadingAction } from '../redux/reducer'
 
 import { Heart } from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
@@ -21,23 +21,23 @@ const SelectedCity = () => {
 
 
     function fetchTelaviv() {
-        console.log('telaviv')
 
-        axios.get(`http://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+
+        axios.get(`https://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 console.log(res.data)
                 dispatch(setCityAction(res.data[0]))
             })
             .catch(err => {
-                console.log(err)
+                dispatch(setErrorAction(err))
             })
-        axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
+        axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 dispatch(setWeatherAction(res.data.DailyForecasts))
                 console.log(res.data.DailyForecasts)
             })
             .catch(err => {
-                console.log(err)
+                dispatch(setErrorAction(err))
             })
     }
 
@@ -56,16 +56,17 @@ const SelectedCity = () => {
                                 <h2 className="text-center m-auto">
                                     {city.LocalizedName}
                                     <Badge bg="secondary" className='m-3'>
-                                        {celsius? weather.Temperature.Metric.Value :weather.Temperature.Imperial.Value}
-                                        {celsius? weather.Temperature.Metric.Unit: weather.Temperature.Imperial.Unit}
+                                        {celsius ? weather.Temperature.Metric.Value : weather.Temperature.Imperial.Value}
+                                        {celsius ? weather.Temperature.Metric.Unit : weather.Temperature.Imperial.Unit}
                                     </Badge>
                                 </h2>
                             </Col>
+                            {console.log(favorites.filter(e => e.Key === city.Key).length)}
                             <Col xs={{ span: 5, offset: 2 }} md={{ span: 2, offset: 6 }}>
-                                {favorites.includes(city) ? <Heart color="red" size={40} floodColor="red" />
+                                {favorites.filter(e => e.Key === city.Key).length > 0 ? <Heart color="red" size={40} floodColor="red" />
                                     : <Button
                                         variant="primary"
-                                        onClick={() => dispatch(addToFavoritesAction(city))}>Like it</Button>
+                                        onClick={() => dispatch(addToFavoritesAction({ ...city, ...weather }))}>Like it</Button>
                                 }
                             </Col>
                         </Row>

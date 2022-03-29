@@ -1,4 +1,4 @@
-import {telaviv, telavivWeather } from './models';
+import { telaviv, telavivWeather } from './models';
 
 
 
@@ -11,7 +11,7 @@ const defaultState = {
     city: telaviv,
     favorites: [],
     cityWeather: telavivWeather,
-    daysWeather:[]
+    daysWeather: []
 }
 
 export const reducer = (state = defaultState, action) => {
@@ -21,7 +21,15 @@ export const reducer = (state = defaultState, action) => {
         case 'CLEAR_OPTIONS':
             return { ...state, options: [] }
         case 'ADD_FAVORITE':
-            return { ...state, favorites: [...state.favorites, action.payload] }
+            return { ...state, favorites: [...state.favorites, action.payload ] }
+        case 'SET_FAVORITE':
+            return {
+                ...state,
+                favorites: state.favorites.map(
+                    (content, i) => i === 1 ? { ...content, weather: action.payload }
+                        : content
+                )
+            }
         case 'REMOVE_FAVORITE':
             return { ...state, favorites: state.favorites.filter(city => city.Key !== action.payload) }
         case 'SET_ERROR':
@@ -31,8 +39,8 @@ export const reducer = (state = defaultState, action) => {
         case 'CHANGE_CITY':
             return { ...state, city: action.payload }
         case 'SET_CITY':
-              
-            return { ...state, cityWeather: {...action.payload}}
+
+            return { ...state, cityWeather: { ...action.payload } }
         case 'SET_WEATHER':
             return { ...state, daysWeather: [...action.payload] }
         case 'SET_ALERT':
@@ -48,6 +56,7 @@ export const reducer = (state = defaultState, action) => {
 export const setAutocompleteOptionsAction = (payload) => ({ type: 'GET_AUTOCOMPLETE_OPTIONS', payload });
 export const clearOptionsAction = (payload) => ({ type: 'CLEAR_OPTIONS' });
 export const addToFavoritesAction = (payload) => ({ type: 'ADD_FAVORITE', payload });
+export const setFavoritesAction = (payload) => ({ type: 'SET_FAVORITE', payload });
 export const removeFromFavoritesAction = (payload) => ({ type: 'REMOVE_FAVORITE', payload })
 export const setErrorAction = (payload) => ({ type: 'SET_ERROR', payload });
 export const setLoadingAction = (payload) => ({ type: 'SET_LOADING', payload });
@@ -57,3 +66,4 @@ export const changeCityAction = (payload) => ({ type: 'CHANGE_CITY', payload });
 export const setAlertAction = (payload) => ({ type: 'SET_ALERT', payload });
 export const setCelsiusAction = (payload) => ({ type: 'SET_CELSIUS', payload });
 
+ 
