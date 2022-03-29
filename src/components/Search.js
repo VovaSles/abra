@@ -29,7 +29,7 @@ const Search = () => {
             value={input}
             autoComplete="of"
             onChange={e => {
-              if ( e.target.value.match(/[A-Za-z]/i)) {
+              if ( e.target.value.match(/[A-Za-z]/i)) {//check english letters
                 setInput(e.target.value)
                 dispatch(fetchOptions(e.target.value))
               } else {

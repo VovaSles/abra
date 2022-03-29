@@ -21,7 +21,6 @@ const FavorList = () => {
         navigate('/');
     }
     return (
-
         <Container>
             <Row xs={1} md={4} className="g-4 mt-5" >
                 {favorites.map(city => (

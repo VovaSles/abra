@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Button, Badge, Row, Col } from 'react-bootstrap'
-import { addToFavoritesAction, setCityAction, setWeatherAction, setErrorAction, setLoadingAction } from '../redux/reducer'
-
+import { addToFavoritesAction, setCityAction, setWeatherAction, setErrorAction } from '../redux/reducer'
 import { Heart } from "react-bootstrap-icons"
 import Typewriter from 'typewriter-effect'
 import { getWeekDat } from '../utils/utils'
@@ -17,15 +16,12 @@ const SelectedCity = () => {
     const weather = useSelector(state => state.cityWeather);
     const daysWeather = useSelector(state => state.daysWeather);
     const celsius = useSelector(state => state.celsius)
-    let loaded = false
+    
 
-
+    
     function fetchTelaviv() {
-
-
         axios.get(`https://dataservice.accuweather.com/currentconditions/v1/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
-                console.log(res.data)
                 dispatch(setCityAction(res.data[0]))
             })
             .catch(err => {
@@ -34,7 +30,7 @@ const SelectedCity = () => {
         axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=${process.env.REACT_APP_API_KEY}`)
             .then(res => {
                 dispatch(setWeatherAction(res.data.DailyForecasts))
-                console.log(res.data.DailyForecasts)
+               
             })
             .catch(err => {
                 dispatch(setErrorAction(err))
@@ -61,7 +57,6 @@ const SelectedCity = () => {
                                     </Badge>
                                 </h2>
                             </Col>
-                            {console.log(favorites.filter(e => e.Key === city.Key).length)}
                             <Col xs={{ span: 5, offset: 2 }} md={{ span: 2, offset: 6 }}>
                                 {favorites.filter(e => e.Key === city.Key).length > 0 ? <Heart color="red" size={40} floodColor="red" />
                                     : <Button

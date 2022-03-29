@@ -5,9 +5,7 @@
   }
   export const telavivWeather =   {
     "LocalObservationDateTime": "2022-03-25T20:47:00+03:00",
-    
     "WeatherText": "Some clouds",
-    
     "Temperature": {
       "Metric": {
         "Value": 15,

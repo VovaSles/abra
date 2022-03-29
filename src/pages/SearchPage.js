@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Row, Col, Spinner } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import Search from '../components/Search'
 import SelectedCity from '../components/SelectedCity'
 import ErrorModal from '../components/ErrorModal'
