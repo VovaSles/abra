@@ -13,7 +13,6 @@ const Search = () => {
   const cityClickHandler = (item) => {
     dispatch(fetchWeather(item.Key));
     dispatch(changeCityAction(item));
-    console.log(item)
     dispatch(clearOptionsAction())
   }
   const alertHandler = (alert) => {
